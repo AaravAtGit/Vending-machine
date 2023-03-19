@@ -38,10 +38,10 @@ export default function HomePage() {
       alert('MetaMask wallet is required to connect');
       return;
     }
-  
+
     const accounts = await ethWallet.request({ method: 'eth_requestAccounts' });
     handleAccount(accounts);
-    
+
     // once wallet is set we can get a reference to our deployed contract
     getATMContract();
   };
@@ -95,7 +95,7 @@ const buy_donut = async() => {
   const initUser = () => {
     // Check to see if user has Metamask
     if (!ethWallet) {
-      return <p>Please install Metamask in order to use this ATM.</p>
+      return <p>Please install Metamask in order to use this Machine.</p>
     }
 
     // Check to see if user is connected. If not, connect to their account
@@ -105,20 +105,34 @@ const buy_donut = async() => {
 
     if (balance == undefined) {
       getBalance();
+      update_donut_balance();
     }
 
     return (
-      <div>
-        <p>Your Account: {account}</p>
-        <p>Your Balance: {balance}</p>
-        <p>Your donuts: {DonutBalance}</p>
-        <button onClick={deposit}>Deposit 1 ETH</button>
-        <button onClick={withdraw}>Withdraw 1 ETH</button>
-        <button onClick={buy_donut}>Donut balance</button>
-        
-
+      <div style={{backgroundColor: "#f2f2f2", border: "1px solid #ddd", borderRadius: "10px", padding: "20px", width: "400px", margin: "0 auto", textAlign: "center"}}>
+        <h2 style={{fontSize: "28px", marginBottom: "20px"}}>Your Account</h2>
+        <div style={{marginBottom: "10px"}}>
+          <p style={{display: "inline-block", marginRight: "10px", fontWeight: "bold"}}>Address:</p>
+          <p style={{display: "inline-block", wordBreak: "break-all"}}>{account}</p>
+        </div>
+        <div style={{marginBottom: "10px"}}>
+          <p style={{display: "inline-block", marginRight: "10px", fontWeight: "bold"}}>Balance:</p>
+          <p style={{display: "inline-block"}}>{balance}</p>
+        </div>
+        <div style={{marginBottom: "10px"}}>
+          <p style={{display: "inline-block", marginRight: "10px", fontWeight: "bold"}}>Donuts:</p>
+          <p style={{display: "inline-block"}}>{DonutBalance}</p>
+        </div>
+        <div style={{display: "flex", justifyContent: "space-between", marginTop: "20px"}}>
+          <button style={{backgroundColor: "#2196F3", color: "white", border: "none", borderRadius: "5px", fontSize: "18px", padding: "10px 20px", cursor: "pointer", transition: "all 0.3s ease"}} onClick={deposit}>Deposit 1 ETH</button>
+          <button style={{backgroundColor: "#f44336", color: "white", border: "none", borderRadius: "5px", fontSize: "18px", padding: "10px 20px", cursor: "pointer", transition: "all 0.3s ease"}} onClick={withdraw}>Withdraw 1 ETH</button>
+          <button style={{backgroundColor: "#FFC107", color: "white", border: "none", borderRadius: "5px", fontSize: "18px", padding: "10px 20px", cursor: "pointer", transition: "all 0.3s ease"}} onClick={buy_donut}>Buy Donut</button>
+        </div>
       </div>
-    )
+    );
+    
+    
+      
   }
 
   useEffect(() => {getWallet(); getBalance();}, [balance]);
@@ -136,3 +150,5 @@ const buy_donut = async() => {
     </main>
   )
 }
+
+
