@@ -2,7 +2,6 @@
 
 pragma solidity ^0.8.8;
 contract Assessment {
-    address payable public owner;
     uint256 public balance;
     uint256 public donutBalance;
 
@@ -11,7 +10,6 @@ contract Assessment {
     event BuyDonut(address buyer);
 
     constructor(uint initBalance) payable {
-        owner = payable(msg.sender);
         balance = initBalance;
         donutBalance = 0;
     }
@@ -27,9 +25,6 @@ contract Assessment {
     function deposit(uint256 _amount) public payable {
         uint _previousBalance = balance;
 
-        // make sure this is the owner
-        require(msg.sender == owner, "You are not the owner of this account");
-
         // perform transaction
         balance += _amount;
 
@@ -44,7 +39,7 @@ contract Assessment {
     error InsufficientBalance(uint256 balance, uint256 withdrawAmount);
 
     function withdraw(uint256 _withdrawAmount) public payable {
-        require(msg.sender == owner, "You are not the owner of this account");
+
         uint _previousBalance = balance;
         if (balance < _withdrawAmount) {
             revert InsufficientBalance({
